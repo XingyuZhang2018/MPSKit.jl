@@ -5,6 +5,7 @@ version = "0.11.2"
 
 [deps]
 Accessors = "7d9f7c33-5ae7-4f3b-8dc6-eff91059b697"
+ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 FLoops = "cc61a311-1640-44b5-9fba-1b764f453329"
 FastClosures = "9aa1b823-49e4-5ca5-8b0f-3971ec8bab6a"
 FoldsThreads = "9c68100b-dfe1-47cf-94c8-95104e173443"
@@ -12,6 +13,7 @@ KrylovKit = "0b1a1467-8014-51b9-945f-bf0ae24f4b77"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 LoggingExtras = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 OptimKit = "77e91f04-9b3b-57a6-a776-40b61faaebe0"
+PackageExtensionCompat = "65ce6f38-6b18-4e1d-a461-8949797d7930"
 Preferences = "21216c6a-2e73-6563-6e65-726566657250"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
@@ -20,6 +22,13 @@ TensorKitManifolds = "11fa318c-39cb-4a83-b1ed-cdc7ba1e3684"
 TensorOperations = "6aa20fa7-93e2-5fca-9bc0-fbd0db3c71a2"
 Transducers = "28d57a85-8fef-5791-bfe6-a80928e7c999"
 VectorInterface = "409d34a3-91d5-4945-b6ec-7529ddf182d8"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
+
+[weakdeps]
+ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
+
+[extensions]
+MPSKitChainRulesCoreExt = "ChainRulesCore"
 
 [compat]
 Accessors = "0.1"

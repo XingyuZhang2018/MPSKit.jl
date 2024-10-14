@@ -137,6 +137,12 @@ function regauge!(CL::MPSBondTensor, AC::GenericMPSTensor; alg=LQpos())
     return _transpose_front(AR_tail)
 end
 
+function regauge(AC::GenericMPSTensor, CR::MPSBondTensor; alg=QRpos())
+    Q_AC, _ = leftorth!(AC; alg)
+    Q_C, _ = leftorth!(CR; alg)
+    return Q_AC * Q_C'
+end
+
 # Implementation
 # --------------
 

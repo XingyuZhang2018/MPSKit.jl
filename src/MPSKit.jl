@@ -11,6 +11,8 @@ using LinearAlgebra: diag, Diagonal
 using LinearAlgebra: LinearAlgebra
 using Base: @kwdef
 using LoggingExtras
+using PackageExtensionCompat
+using Zygote
 
 # bells and whistles for mpses
 export InfiniteMPS, FiniteMPS, WindowMPS, MPSMultiline
@@ -71,6 +73,7 @@ using .Defaults: VERBOSE_NONE, VERBOSE_WARN, VERBOSE_CONV, VERBOSE_ITER, VERBOSE
 include("utility/logging.jl")
 using .IterativeLoggers
 include("utility/iterativesolvers.jl")
+
 
 include("utility/periodicarray.jl")
 include("utility/windowarray.jl")

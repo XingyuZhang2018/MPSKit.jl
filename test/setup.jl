@@ -13,6 +13,7 @@ export S_xx, S_yy, S_zz, S_x, S_y, S_z
 export force_planar
 export transverse_field_ising, heisenberg_XXX, bilinear_biquadratic_model
 export classical_ising, finite_classical_ising, sixvertex
+export num_grad
 
 # using TensorOperations
 
@@ -119,8 +120,8 @@ function ising_bond_tensor(β)
     return nt
 end
 
-function classical_ising()
-    β = log(1 + sqrt(2)) / 2
+function classical_ising(β)
+    # β = log(1 + sqrt(2)) / 2
     nt = ising_bond_tensor(β)
     O = zeros(ComplexF64, (2, 2, 2, 2))
     O[1, 1, 1, 1] = 1
@@ -164,6 +165,15 @@ function sixvertex(; a=1.0, b=1.0, c=1.0)
                    0 b c 0
                    0 0 0 a]
     return DenseMPO(permute(TensorMap(d, ℂ^2 ⊗ ℂ^2, ℂ^2 ⊗ ℂ^2), ((1, 2), (4, 3))))
+end
+
+function num_grad(f, K; δ::Real=1e-5)
+    if eltype(K) == ComplexF64
+        (f(K + δ / 2) - f(K - δ / 2)) / δ + 
+            (f(K + δ / 2 * 1.0im) - f(K - δ / 2 * 1.0im)) / δ * 1.0im
+    else
+        (f(K + δ / 2) - f(K - δ / 2)) / δ
+    end
 end
 
 end
