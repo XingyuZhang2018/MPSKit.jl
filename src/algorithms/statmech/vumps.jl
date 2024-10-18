@@ -80,39 +80,5 @@ function leading_boundary(ψ::MPSMultiline, H, alg::VUMPS, envs=environments(ψ,
         end
     end
 
-    @show typeof(ψ)
-    return ψ, envs, ϵ
-end
-
-function vumps_iter(ψ::InfiniteMPS, H, alg, envs, ϵ)
-    (st, pr, de) = vumps_iter(convert(MPSMultiline, ψ), Multiline([H]), alg, envs, ϵ)
-    return convert(InfiniteMPS, st), pr, de
-end
-function vumps_iter(ψ::MPSMultiline, H, alg::VUMPS, envs, ϵ)
-    iter = alg.maxiter
-    alg_eigsolve = updatetol(alg.alg_eigsolve, iter, ϵ)
-
-    temp_ACs = Zygote.Buffer(ψ.AC)
-    temp_Cs = Zygote.Buffer(ψ.CR)
-    for col in 1:size(ψ, 2)
-        H_AC = ∂∂AC(col, ψ, H, envs)
-        ac = RecursiveVec(ψ.AC[:, col])
-        _, ac′ = fixedpoint(H_AC, ac, :LM, alg_eigsolve)
-        temp_ACs[:, col] = ac′.vecs[:]
-
-        H_C = ∂∂C(col, ψ, H, envs)
-        c = RecursiveVec(ψ.CR[:, col])
-        _, c′ = fixedpoint(H_C, c, :LM, alg_eigsolve)
-        temp_Cs[:, col] = c′.vecs[:]
-    end
-
-    temp_ACs = [regauge(AC, C) for (AC, C) in zip(temp_ACs, temp_Cs)]
-
-    alg_gauge = updatetol(alg.alg_gauge, iter, ϵ)
-    ψ = MPSMultiline(temp_ACs, ψ.CR[:, end]; alg_gauge.tol, alg_gauge.maxiter)
-
-    alg_environments = updatetol(alg.alg_environments, iter, ϵ)
-    recalculate!(envs, ψ; alg_environments.tol)
-
     return ψ, envs, ϵ
 end
